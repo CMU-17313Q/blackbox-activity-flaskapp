@@ -126,21 +126,21 @@ def index():
     form_html = '''
     <form method="post">
     <div class="form-group">
-        Age: <input type="number" name="age" min="0" max="117"required><br>
+        Age: <input type="number" name="age" min="0" max="117"required  value="{{ request.form['age']}}" /><br>
        </div>
             <div class="form-group">
-        Date and Time (YYYY-MM-DD HH:MM): <input type="date" id="date" name="trip-date" value="2024-03-28" min="2024-01-01" max="2029-12-31" />
+        Date and Time (YYYY-MM-DD HH:MM): <input type="date" id="date" name="trip-date" min="2024-01-01" max="2029-12-31" value="{{ request.form['trip-date'] }}"/>
        </div>
             <div class="form-group">
-    <input type="time" id="appt" name="trip-time" min="00:00" max="23:59" required /><br>
+    <input type="time" id="appt" name="trip-time" min="00:00" max="23:59" required value="{{ request.form['trip-time']}}" /><br>
        </div>
             <div class="form-group">
-        Ride Duration (minutes): <input type="number" name="duration" min="0" max="120" required><br>
+        Ride Duration (minutes): <input type="number" name="duration" min="0" max="120" required value="{{ request.form['duration']}}" /><br>
        </div>
             <div class="form-group">
         Public Holiday (Yes/No): <select name="public_holiday">
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
+            <option value="No" {% if request.form['public_holiday'] == "No" %} selected {% endif %} >No</option>
+            <option value="Yes" {% if request.form['public_holiday'] == "Yes" %} selected {% endif %}>Yes</option>
         </select><br>
        </div>
             <div class="form-group">
