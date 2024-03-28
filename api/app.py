@@ -153,6 +153,3 @@ def index():
 
     visibility = "hidden" if price == "" else "visible"
     return render_template_string(html_head+specs+form_html, price=price, visibility=visibility)
-
-if __name__ == '__main__':
-    app.run(debug=True)
