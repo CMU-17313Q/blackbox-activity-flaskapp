@@ -6,6 +6,20 @@ app = Flask(__name__)
 
 specs = """
 <div class="function-specification">
+<h2>Reglas de Precio del Boleto de Autobús</h2>
+<ul>
+    <li>Los niños menores de 2 años viajan gratis.</li>
+    <li>Los niños menores de 18 años y los mayores de 65 años pagan la mitad de la tarifa.</li>
+    <li>Todos los demás pagan la tarifa completa de $3.</li>
+    <li>Entre semana (de lunes a viernes), entre las 7 a.m. y las 9 a.m., y entre las 4 p.m. y las 6 p.m., se agrega un recargo de $1.5 a la tarifa.</li>
+    <li>Durante los fines de semana (sábado y domingo), hay una tarifa plana de $2 para todos los pasajeros, excepto los niños menores de 2 años que aún viajan gratis.</li>
+    <li>Los viajes cortos de menos de 5 minutos en horarios fuera de pico son gratuitos, excepto los fines de semana.</li>
+    <li>Si el viaje ocurre en un día festivo, se agrega un recargo especial de $2, ignorando otros recargos y la tarifa plana de fin de semana.</li>
+</ul>
+</div>
+"""
+
+"""
     <h2>Bus Ticket Pricing Rules</h2>
     <ul>
         <li>Children under 2 ride for free.</li>
