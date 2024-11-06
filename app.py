@@ -34,7 +34,9 @@ specs = """
 """
 
 # Bus ticket price function (as previously defined)
-def bus_ticket_price(age: int, ride_datetime: datetime, ride_duration: int, is_public_holiday: bool) -> float:
+def bus_ticket_price(age: int, ride_datetime: datetime,
+                     ride_duration: int, is_public_holiday: bool) -> float:
+
     from datetime import datetime, time
 
     price = 3.0
@@ -140,27 +142,27 @@ def index():
     form_html = '''
     <form method="post">
     <div class="form-group">
-        Age: <input type="number" name="age" min="0" max="117"required  value="{{ request.form['age']}}" /><br>
+        Edad: <input type="number" name="age" min="0" max="117"required  value="{{ request.form['age']}}" /><br>
        </div>
             <div class="form-group">
-        Date and Time (YYYY-MM-DD HH:MM): <input type="date" id="date" name="trip-date" min="2024-01-01" max="2029-12-31" value="{{ request.form['trip-date'] }}"/>
+        Fecha y Hora (YYYY-MM-DD HH:MM): <input type="date" id="date" name="trip-date" min="2024-01-01" max="2029-12-31" value="{{ request.form['trip-date'] }}"/>
        </div>
             <div class="form-group">
     <input type="time" id="appt" name="trip-time" min="00:00" max="23:59" required value="{{ request.form['trip-time']}}" /><br>
        </div>
             <div class="form-group">
-        Ride Duration (minutes): <input type="number" name="duration" min="0" max="120" required value="{{ request.form['duration']}}" /><br>
+        Duración del Viaje (minutos): <input type="number" name="duration" min="0" max="120" required value="{{ request.form['duration']}}" /><br>
        </div>
             <div class="form-group">
-        Public Holiday (Yes/No): <select name="public_holiday">
+        Día Festivo Público (Yes/No): <select name="public_holiday">
             <option value="No" {% if request.form['public_holiday'] == "No" %} selected {% endif %} >No</option>
             <option value="Yes" {% if request.form['public_holiday'] == "Yes" %} selected {% endif %}>Yes</option>
         </select><br>
        </div>
             <div class="form-group">
-        <input type="submit" value="Calculate Price">
+        <input type="submit" value="Calcular Precio">
     </form>
-    <div class="price-display">Price: <span style="visibility: {{visibility}};">${{price}}</span></div>
+    <div class="price-display">Precio: <span style="visibility: {{visibility}};">${{price}}</span></div>
     </body>
     </html>
     '''
