@@ -41,6 +41,7 @@ def bus_ticket_price(age: int, ride_datetime: datetime,
     elif is_child_or_senior:
         price /= 2
 
+    """ BUG: peak times don't apply on weekends """
     if is_peak_time:
         price += 1.5
 
