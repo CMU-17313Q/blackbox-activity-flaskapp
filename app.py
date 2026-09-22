@@ -2,7 +2,7 @@ from flask import Flask, request, render_template_string
 from datetime import datetime
 
 app = Flask(__name__)
-
+app.config['APPLICATION_ROOT'] = '/blackboxapp'
 
 specs = """
 <div class="function-specification">
