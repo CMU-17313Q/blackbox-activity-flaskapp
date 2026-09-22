@@ -6,13 +6,13 @@ app.config['APPLICATION_ROOT'] = '/blackboxapp'
 
 specs = """
 <div class="function-specification">
-    <h2>Bus Ticket Pricing Rules</h2>
+    <h2>Qatar Bus Ticket Pricing Rules</h2>
     <ul>
-        <li>The base fare is $3.</li>
+        <li>The base fare is QAR 3.</li>
         <li>Children under 2 ride for free.</li>
         <li>Children under 18 and senior citizens over 65 pay half the fare.</li>
-        <li>On weekdays (Monday to Friday), between 7am and 9am and between 4pm and 6pm, a peak surcharge of $1.5 is added to the fare.</li>
-        <li>During weekends (Saturday and Sunday), there is a flat rate of $2 for all riders, except for children under 2 who still ride for free.</li>
+        <li>On weekdays (Sunday to Thursday), between 7am and 9am and between 4pm and 6pm, a peak surcharge of QAR 1.5 is added to the fare.</li>
+        <li>During weekends (Friday and Saturday), there is a flat rate of QAR 2 for all riders, except for children under 2 who still ride for free.</li>
         <li>Short trips under 5 minutes during off-peak times are free, except on weekends.</li>
     </ul>
 </div>
@@ -26,7 +26,7 @@ def bus_ticket_price(age: int, ride_datetime: datetime,
 
     price = 3.0
     weekday = ride_datetime.weekday()
-    is_weekend = weekday >= 5
+    is_weekend = weekday in (4, 5)  # Qatar weekend: Friday, Saturday
     is_peak_time = (time(7, 0) <= ride_datetime.time() <= time(9, 0) or time(16, 0) <= ride_datetime.time() <= time(18, 0))
     is_short_trip = ride_duration < 5
     is_child_or_senior = age < 18 or age > 65
@@ -71,53 +71,87 @@ def index():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bus Ticket Price Calculator</title>
+        <title>Qatar Bus Ticket Price Calculator</title>
         <style>
             body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
+                font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+                background-color: #f5f5f7;
+                padding: 30px 20px;
+            }
+            h2 {
+                color: #8A1538;
             }
             form {
                 max-width: 600px;
-                margin: auto;
+                margin: 0 auto 30px;
+                background: #ffffff;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             }
             .form-group {
                 margin-bottom: 20px;
             }
             label {
                 display: block;
-                margin-bottom: 5px;
+                margin-bottom: 6px;
+                font-weight: 600;
+                color: #333;
             }
-            input, select {
+            input {
                 width: 100%;
                 padding: 10px;
                 font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                box-sizing: border-box;
             }
             input[type="submit"] {
-                background-color: #4CAF50;
+                background-color: #8A1538;
                 color: white;
                 border: none;
                 cursor: pointer;
                 font-size: 18px;
+                padding: 12px 20px;
+                border-radius: 6px;
+                transition: background-color 0.2s ease-in-out;
             }
             input[type="submit"]:hover {
-                background-color: #45a049;
+                background-color: #6b0f2b;
             }
             .price-display {
-                font-size: 30px;
-                margin-top: 20px;
+                max-width: 600px;
+                margin: 0 auto;
+                font-size: 32px;
+                font-weight: bold;
+                color: #8A1538;
+                text-align: center;
             }
-    .function-specification ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .function-specification li::before {
-            content: "• ";
-            color: #4CAF50; /* Bullet color */
-        }
-        .function-specification li {
-            margin-bottom: 10px;
-        }
+            .function-specification {
+                max-width: 600px;
+                margin: 0 auto 30px;
+                background: #fdf2f5;
+                border-left: 5px solid #8A1538;
+                border-radius: 8px;
+                padding: 25px 30px;
+            }
+            .function-specification h2 {
+                font-size: 26px;
+                margin-top: 0;
+            }
+            .function-specification ul {
+                list-style-type: none;
+                padding: 0;
+                font-size: 18px;
+                line-height: 1.7;
+            }
+            .function-specification li::before {
+                content: "• ";
+                color: #8A1538;
+            }
+            .function-specification li {
+                margin-bottom: 12px;
+            }
         </style>
     </head>
     '''
@@ -125,24 +159,29 @@ def index():
     form_html = '''
     <form method="post">
     <div class="form-group">
-        Age: <input type="number" name="age" min="0" max="117"required  value="{{ request.form['age']}}" /><br>
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="0" max="117" required value="{{ request.form['age']}}" />
        </div>
             <div class="form-group">
-        Date and Time (YYYY-MM-DD HH:MM): <input type="date" id="date" name="trip-date" min="2025-10-29" max="2029-12-31" value="{{ request.form['trip-date'] }}"/>
+        <label for="date">Trip Date</label>
+        <input type="date" id="date" name="trip-date" min="{{ min_date }}" max="2029-12-31" required value="{{ request.form['trip-date'] }}"/>
        </div>
             <div class="form-group">
-    <input type="time" id="appt" name="trip-time" min="00:00" max="23:59" required value="{{ request.form['trip-time']}}" /><br>
+        <label for="appt">Trip Time (24-hour, HH:MM)</label>
+        <input type="time" id="appt" name="trip-time" min="00:00" max="23:59" required value="{{ request.form['trip-time']}}" />
        </div>
             <div class="form-group">
-        Ride Duration (minutes): <input type="number" name="duration" min="0" max="120" required value="{{ request.form['duration']}}" /><br>
+        <label for="duration">Ride Duration (minutes)</label>
+        <input type="number" id="duration" name="duration" min="0" max="120" required value="{{ request.form['duration']}}" />
        </div>
             <div class="form-group">
         <input type="submit" value="Calculate Price">
     </form>
-    <div class="price-display">Price: <span style="visibility: {{visibility}};">${{price}}</span></div>
+    <div class="price-display">Price: <span style="visibility: {{visibility}};">QAR {{price}}</span></div>
     </body>
     </html>
     '''
 
     visibility = "hidden" if price == "" else "visible"
-    return render_template_string(html_head+specs+form_html, price=price, visibility=visibility)
+    min_date = datetime.now().strftime('%Y-%m-%d')
+    return render_template_string(html_head+specs+form_html, price=price, visibility=visibility, min_date=min_date)

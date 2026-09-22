@@ -71,11 +71,11 @@ The response is the same HTML page, with the price filled in.
 
 ## Pricing rules
 
-- The base fare is $3.
+- The base fare is QAR 3.
 - Children under 2 ride for free.
 - Children under 18 and senior citizens over 65 pay half the fare.
-- On weekdays (Monday to Friday), between 7am and 9am and between 4pm and 6pm, a peak
-  surcharge of $1.5 is added to the fare.
-- During weekends (Saturday and Sunday), there is a flat rate of $2 for all riders, except for
+- On weekdays (Sunday to Thursday), between 7am and 9am and between 4pm and 6pm, a peak
+  surcharge of QAR 1.5 is added to the fare.
+- During weekends (Friday and Saturday), there is a flat rate of QAR 2 for all riders, except for
   children under 2 who still ride for free.
 - Short trips under 5 minutes during off-peak times are free, except on weekends.
