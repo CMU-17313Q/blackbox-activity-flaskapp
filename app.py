@@ -27,7 +27,7 @@ def bus_ticket_price(age: int, ride_datetime: datetime,
     price = 3.0
     weekday = ride_datetime.weekday()
     is_weekend = weekday >= 5
-    is_peak_time = weekday < 5 and (time(7, 0) <= ride_datetime.time() <= time(9, 0) or time(16, 0) <= ride_datetime.time() <= time(18, 0))
+    is_peak_time = (time(7, 0) <= ride_datetime.time() <= time(9, 0) or time(16, 0) <= ride_datetime.time() <= time(18, 0))
     is_short_trip = ride_duration < 5
     is_child_or_senior = age < 18 or age > 65
     is_infant = age < 2
